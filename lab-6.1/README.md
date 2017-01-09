@@ -25,7 +25,7 @@ Clone out the GitHub repository for this lesson.
 ### Step 3
 
 Change to the lab directory.  
-`cd devops-lesson-6`  
+`cd devops-lesson-6/lab-6.1`  
 
 Check out the Dockerfile.  
 `cat Dockerfile`  
