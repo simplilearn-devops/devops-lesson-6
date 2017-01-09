@@ -9,12 +9,15 @@ Connect to the Google Compute Engine virtual machine.
 
 ### Step 2
 
-Change to the exercise directory. 
+Change to the exercise directory and ensure it is up to date. 
 `cd`  
-`cd devops-lesson-6/lab-6.3`  
+`cd devops-lesson-6`  
+`git pull`  
+`cd lab-6.3`  
 
-Copy the SSH keys.  
+Copy the SSH keys and clean the known hosts file..    
 `cp ~/.ssh/id_rsa.pub authorized_keys`  
+`rm -f ~/.ssh/known_hosts`  
 
 Check out the Dockerfile.  
 `cat Dockerfile`  
