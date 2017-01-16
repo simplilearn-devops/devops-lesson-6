@@ -9,13 +9,13 @@ Connect to the Google Compute Engine virtual machine.
 
 ### Step 2
 
-Change to the exercise directory and ensure it is up to date. 
+Change to the exercise directory and ensure it is up to date.  
 `cd`  
 `cd devops-lesson-6`  
 `git pull`  
 `cd lab-6.3`  
 
-Copy the SSH keys and clean the known hosts file..    
+Copy the SSH keys and clean the known hosts file.    
 `cp ~/.ssh/id_rsa.pub authorized_keys`  
 `rm -f ~/.ssh/known_hosts`  
 
@@ -38,12 +38,12 @@ See that docker created a volume for the data.
 
 ### Step 4
 
-Clone the git repo.  
+Clone the git repo. Ignore the warning about the repo being empty. It is.  
 `git clone ssh://git@localhost:2022/home/git/project.git`  
 `cd project`  
-`ls -ls`  
+`ls -la`  
 
-Add a new file.  
+Add a new file. See how the status changes.  
 `eco "message 1" > message1.txt`  
 `git status`  
 `git add *`  
@@ -59,5 +59,6 @@ Try some other Git commands.
 
 Tidy up.  
 `docker rm -f git`  
-`rm -rf project`  
+`docker mi git`  
+`rm -rf project ~/.ssh/known_hosts`  
 
