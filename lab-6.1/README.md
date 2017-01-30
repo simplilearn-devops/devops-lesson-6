@@ -42,7 +42,7 @@ Run the container.
 
 Find the external IP address of your VM.  
 In a browser on your local machine enter the URL x.x.x.x:8080/jtrac replacing
-x.x.x.x with t=your external IP address.
+x.x.x.x with your external IP address.
 
 You should see the Jtrac home page.  
 Log in as admin with passord admin.
