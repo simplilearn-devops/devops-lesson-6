@@ -57,8 +57,8 @@ Try some other Git commands.
 
 ### Step 5
 
-Tidy up.  
+Tidy up by deleting the container and image and other files which can cause problems later.  
 `docker rm -f git`  
-`docker mi git`  
+`docker rmi git`  
 `rm -rf project ~/.ssh/known_hosts`  
 
