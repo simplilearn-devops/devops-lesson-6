@@ -54,7 +54,7 @@ Select `Manage Spaces`.
 Select `Create new space`.  
 Give the space a `Display Name`, `Space Key` and `Description` and hit `Next`.  
 The `Space Key` must be only upper case letters.  
-elect `Next` and then `Save`.  
+Select `Next` and then `Save`.  
 Hit `Allocate` to add the admin user to the space.  
 Create a new user and allocate it to the space.  
 
@@ -66,5 +66,5 @@ Check out this Web page for more information `http://jtrac.info/doc/html/feature
 Tidy up.  
 `docker stop jtrac`  
 
-If you choose to remove the container you will lose any data. We won't be usigthis tool again.
+If you choose to remove the container you will lose any data. We won't be using this tool again.
 
