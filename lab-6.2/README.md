@@ -33,11 +33,11 @@ Create a repository. It is basically a database, configuration and scripts.
 `svnadmin create /opt/SVN/monitoring`  
 `ls -l /opt/SVN/monitoring`  
 
-Edit the server configuration file and give anonymous users write access by adding the line `anon-access = write` to the `[general]` section.  
-`vi SVN/monitoring/conf/svnserve.conf`  
+Edit the server configuration file and give anonymous users write access by adding the line `anon-access = write` to the `[general]` section. You save and quit `vi` by typing `:wq`.  
+`vi /opt/SVN/monitoring/conf/svnserve.conf`  
 
 Edit the password file in the repositor and add the entry `root = rootpw` to the end of the file.  
-`vi SVN/monitoring/conf/passwd`  
+`vi /opt/SVN/monitoring/conf/passwd`  
 
 Exit the container with control-D.  
 
