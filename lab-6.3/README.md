@@ -15,6 +15,8 @@ Change to the exercise directory and ensure it is up to date.
 `git pull`  
 `cd lab-6.3`  
 
+### Step 3
+
 Copy the SSH keys and clean the known hosts file.    
 `cp ~/.ssh/id_rsa.pub authorized_keys`  
 `rm -f ~/.ssh/known_hosts`  
@@ -26,7 +28,7 @@ Build the Alpine Linux image.
 `docker build -t git .`  
 `docker images`  
 
-### Step 3
+### Step 4
 
 Run the container.  
 `docker run -d -p 2022:22 --name git git`  
@@ -36,7 +38,7 @@ See that docker created a volume for the data.
 `docker volume ls`  
 `docker inspect git`  
 
-### Step 4
+### Step 5
 
 Clone the git repo. Ignore the warning about the repo being empty. It is.  
 `git clone ssh://git@localhost:2022/home/git/project.git`  
@@ -55,7 +57,7 @@ Add a new file. See how the status changes.
 
 Try some other Git commands.
 
-### Step 5
+### Step 6
 
 Tidy up by deleting the container and image and other files which can cause problems later.  
 `docker rm -f git`  
