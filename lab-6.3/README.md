@@ -34,16 +34,16 @@ Run the container.
 `docker run -d -p 2022:22 --name git git`  
 `docker ps`  
 
-See that docker created a volume for the data.  
-`docker volume ls`  
-`docker inspect git`  
-
 ### Step 5
 
 Clone the git repo. Ignore the warning about the repo being empty. It is.  
 `git clone ssh://git@localhost:2022/home/git/project.git`  
 `cd project`  
 `ls -la`  
+
+Add your user and email address.  
+`git config user.name student`  
+`git config user.email student@$(name -n)`  
 
 Add a new file. See how the status changes.  
 `eco "message 1" > message1.txt`  
