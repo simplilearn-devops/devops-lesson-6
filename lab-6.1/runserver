@@ -1,0 +1,2 @@
+#! /bin/bash
+docker run --net puppet -d --name puppetserveri --hostname puppet puppet/puppetserver-standalone

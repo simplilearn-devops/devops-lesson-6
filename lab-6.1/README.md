@@ -1,70 +1,53 @@
-# Exercise 6.1 Ticketing
+# Exercise 7.3 Configuration Management with Puppet
 
-We are going to install the open source ticketing system JTrac into a docker container and use it.
+We will now pull and run a puppet server and a puppet client in
+Docker containers.
 
 ### Step 1
 
-Connect to the Google Compute engine virtual machine.
+Create a Docker network for puppet.
 
-We need to enable port 8080 in the firewall.  
-Go to the triple bar icon at the top left and select Networking. Then select Firewall Rules.
+`docker network create puppet`  
 
-Select Create Firewall Rule.
-Fill in the form:
-Name: default-allow-http-8080
-Source IP: 0.0.0.0/0
-Allow protocols and ports: tcp:8080
-Hit Create
+Check what got created.
+
+`docker network ls`  
 
 ### Step 2
 
-Clone out the GitHub repository for this lesson.  
-`cd`  
-`git clone https://github.com/simplilearn-devops/devops-lesson-6`  
+Pull the puppet images.
+
+`docker pull puppet/puppetserver-standalone`  
+`docker pull puppet/puppet-agent-alpine`  
+`docker images`  
 
 ### Step 3
 
-Change to the lab directory.  
-`cd devops-lesson-6/lab-6.1`  
+Start the puppet server.
 
-Check out the Dockerfile.  
-`cat Dockerfile`  
+`docker run --net puppet -d --name puppetserver --hostname puppet puppet/puppetserver-standalone`  
+`docker ps`  
 
-Build the Docker image.  
-`docker build -t jtrac .`  
-`docker images`  
+We need to ensure that the server is running. Extract the logs until you see
+the message:  
+Puppet Server has successfully started and is now ready to handle requests  
+`docker logs puppetserver`  
 
 ### Step 4
 
-Run the container.  
-`docker run -d --name jtrac -p 8080:80 jtrac`  
-`docker ps`  
+Start the puppet agent. It will connect to the server and perform a certificate exchange. Check out the output.
 
-Find the external IP address of your VM.  
-In a browser on your local machine enter the URL x.x.x.x:8080/jtrac replacing
-x.x.x.x with your external IP address.
-
-You should see the Jtrac home page.  
-Log in as admin with passord admin.
+`docker run --rm --net puppet --link=puppetserver:puppet puppet/puppet-agent-alpine`  
 
 ### Step 5
 
-Select `Options`.  
-Select `Manage Spaces`.  
-Select `Create new space`.  
-Give the space a `Display Name`, `Space Key` and `Description` and hit `Next`.  
-The `Space Key` must be only upper case letters.  
-Select `Next` and then `Save`.  
-Hit `Allocate` to add the admin user to the space.  
-Create a new user and allocate it to the space.  
+Now let's find out what package puppet is managing.
 
-Create a few issues. Try out features on the application. It should be fairly intuative.
-Check out this Web page for more information `http://jtrac.info/doc/html/features.html#features-dashboard`  
+`docker run --rm --net puppet --link=puppetserver:puppet puppet/puppet-agent-alpine resource package`  
 
 ### Step 6
 
-Tidy up.  
-`docker stop jtrac`  
+Tidy up.
 
-If you choose to remove the container you will lose any data. We won't be using this tool again.
+`docker rm -f puppetserver`  
 

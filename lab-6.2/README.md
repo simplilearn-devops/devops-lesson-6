@@ -1,81 +1,53 @@
-# Exercise 6.2 Subversion
+# Exercise 7.3 Configuration Management with Puppet
 
-In this exercise we will install Subversion into a Docker image and
-use the image as both a client and a server.
+We will now pull and run a puppet server and a puppet client in
+Docker containers.
 
 ### Step 1
 
-Connect to the Google Compute Engine virtual machine.
+Create a Docker network for puppet.
+
+`docker network create puppet`  
+
+Check what got created.
+
+`docker network ls`  
 
 ### Step 2
 
-Change to the directory for this exercise.  
-`cd`  
-`cd devops-lesson-6/lab-6.2`  
+Pull the puppet images.
 
-Check out the Dockerfile.  
-`cat Dockerfile`  
-
-Build the image.  
-`docker build -t svn .`  
-` docker images`  
+`docker pull puppet/puppetserver-standalone`  
+`docker pull puppet/puppet-agent-alpine`  
+`docker images`  
 
 ### Step 3
 
-Create two directories to work with.  
-`mkdir SVN Work`  
+Start the puppet server.
 
-Start a client container.  
-`docker run -it --rm -v $PWD/SVN:/opt/SVN svn /bin/bash`  
+`docker run --net puppet -d --name puppetserver --hostname puppet puppet/puppetserver-standalone`  
+`docker ps`  
 
-Create a repository. It is basically a database, configuration and scripts.   
-`mkdir /opt/SVN/monitoring`  
-`svnadmin create /opt/SVN/monitoring`  
-`ls -l /opt/SVN/monitoring`  
-
-Edit the server configuration file and give anonymous users write access by adding the line `anon-access = write` to the `[general]` section. You save and quit `vi` by typing `:wq`.  
-`vi /opt/SVN/monitoring/conf/svnserve.conf`  
-
-Edit the password file in the repositor and add the entry `root = rootpw` to the end of the file.  
-`vi /opt/SVN/monitoring/conf/passwd`  
-
-Exit the container with control-D.  
+We need to ensure that the server is running. Extract the logs until you see
+the message:  
+Puppet Server has successfully started and is now ready to handle requests  
+`docker logs puppetserver`  
 
 ### Step 4
 
-Run the server and find its IP address.  
-`docker run -d --name svn -v $PWD/SVN:/opt/SVN -p 3690:3690 svn`  
-`docker ps`  
-`docker inspect svn`  
+Start the puppet agent. It will connect to the server and perform a certificate exchange. Check out the output.
+
+`docker run --rm --net puppet --link=puppetserver:puppet puppet/puppet-agent-alpine`  
 
 ### Step 5
 
-Run the client.  
-`docker run -it --rm -v $PWD/Work:/opt/Work svn /bin/bash`  
+Now let's find out what package puppet is managing.
 
-Check out the repository.  
-`cd /opt/Work`  
-`svn co svn://172.17.0.2/monitoring`  
-`ls -la`  
-`cd monitoring`  
+`docker run --rm --net puppet --link=puppetserver:puppet puppet/puppet-agent-alpine resource package`  
 
 ### Step 6
 
-Try out some Subversion commands.  
-`echo "Message 1 " > message1.txt`  
-`svn status`  
-`svn add message1.txt`  
-`svn status`  
-`ls -la`  
-`svn log message1.txt`  
+Tidy up.
 
-Try other commands and adding other files.
-
-### Step 7
-
-Exit the container with control-D.
-
-Delete the server container.  
-`docker rm -f svn`  
-
+`docker rm -f puppetserver`  
 
